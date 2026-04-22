@@ -1,5 +1,5 @@
 import pandas as pd
-
+# Cleaning and pre-processing data for medals by age group
 medals  = pd.read_csv("olympic_medals (2).csv")
 athletes = pd.read_csv("olympic_athletes (2).csv")
 
