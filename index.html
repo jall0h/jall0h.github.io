@@ -8,15 +8,20 @@
   </head>
 
   <body>
-    <button>Stop</button>
-    <div>
-      <select id="medal-filter">
-        <option value="total">All Medals</option>
-        <option value="gold">Gold</option>
-        <option value="silver">Silver</option>
-        <option value="bronze">Bronze</option>
-      </select>
+    <div class="button-container">
+      <button class="btn" id="play-stop">Stop</button>
+      <button class="btn" id="step-back">&#9664; Prev Year</button>
+      <button class="btn" id="step-forward">Next Year &#9654;</button>
+      <div>
+        <select id="medal-filter">
+          <option value="total">All Medals</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </div>
     </div>
+
     <svg id="bar-chart-race">
       <g class="chart-container">
         <text class="chart-title"></text>

@@ -4,10 +4,11 @@ body {
   flex-direction: column;
 }
 
-button {
-  width: 80px;
-  height: 30px;
-  border-radius: 4px;
+.btn {
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
   box-shadow: none;
   outline: none;
   cursor: pointer;
@@ -64,3 +65,11 @@ svg {
   align-items: center;
   width: 100%;
 }
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+  align-items: center;
+}
+
