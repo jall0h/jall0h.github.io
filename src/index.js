@@ -1,7 +1,7 @@
 const myChart = new BarChartRace("bar-chart-race", {
-  width: 600,
-  height: 350,
-  duration: 3500,
+  width: 960,
+  height: 560,
+  duration: 2000,
 });
 
 function startChart(medalType) {
@@ -9,7 +9,10 @@ function startChart(medalType) {
   myChart.clearDatasets();
 
   loadData(medalType).then((datasets) => {
-    const label = medalType === "total" ? "All Medals" : medalType.charAt(0).toUpperCase() + medalType.slice(1);
+    const label =
+      medalType === "total"
+        ? "All Medals"
+        : medalType.charAt(0).toUpperCase() + medalType.slice(1);
     myChart
       .setTitle(`Olympic Medals by Age Group (${label})`)
       .addDatasets(datasets)
