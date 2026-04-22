@@ -1,7 +1,7 @@
 const myChart = new BarChartRace("bar-chart-race", {
   width: 600,
   height: 350,
-  duration: 2000,
+  duration: 3500,
 });
 
 function startChart(medalType) {
@@ -21,7 +21,7 @@ function startChart(medalType) {
 
 startChart("total");
 
-d3.select("button").on("click", function () {
+d3.select("#play-stop").on("click", function () {
   if (this.innerHTML === "Stop") {
     this.innerHTML = "Resume";
     myChart.stop();
@@ -32,6 +32,16 @@ d3.select("button").on("click", function () {
     this.innerHTML = "Stop";
     myChart.render();
   }
+});
+
+d3.select("#step-back").on("click", () => {
+  d3.select("#play-stop").text("Resume");
+  myChart.stepBack();
+});
+
+d3.select("#step-forward").on("click", () => {
+  d3.select("#play-stop").text("Resume");
+  myChart.stepForward();
 });
 
 d3.select("#medal-filter").on("change", function () {

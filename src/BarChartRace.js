@@ -13,10 +13,14 @@ function BarChartRace(chartId, extendedSettings) {
   chartSettings.innerWidth = chartSettings.width - chartSettings.padding * 2;
   chartSettings.innerHeight = chartSettings.height - chartSettings.padding * 2;
 
+  chartSettings.pauseAt = chartSettings.pauseAt ?? 600;
+
   const chartDataSets = [];
   let chartTransition;
   let timerStart, timerEnd;
+  let pauseTimer = null;
   let currentDataSetIndex = 0;
+  let displayedIndex = 0;
   let elapsedTime = chartSettings.duration;
 
   const chartContainer = d3.select(`#${chartId} .chart-container`);
@@ -194,8 +198,35 @@ function BarChartRace(chartId, extendedSettings) {
     return this;
   }
 
+  function drawInstant(index) {
+    if (index < 0 || index >= chartDataSets.length) return;
+    stop();
+    displayedIndex = index;
+    currentDataSetIndex = index;
+    elapsedTime = chartSettings.duration;
+    timerStart = null;
+    timerEnd = null;
+
+    const instantTransition = chartContainer.transition().duration(0);
+
+    draw(chartDataSets[index], instantTransition);
+  }
+
+  function stepForward() {
+    const next = displayedIndex + 1;
+    if (next < chartDataSets.length) drawInstant(next);
+    return this;
+  }
+
+  function stepBack() {
+    const prev = displayedIndex - 1;
+    if (prev >= 0) drawInstant(prev);
+    return this;
+  }
+
   async function render(index = 0) {
     currentDataSetIndex = index;
+    displayedIndex = index;
     timerStart = d3.now();
 
     chartTransition = chartContainer
@@ -205,9 +236,9 @@ function BarChartRace(chartId, extendedSettings) {
       .on("end", () => {
         if (index < chartDataSets.length) {
           elapsedTime = chartSettings.duration;
-          render(index + 1);
+          pauseTimer = setTimeout(() => render(index + 1), chartSettings.pauseAt);
         } else {
-          d3.select("button").text("Play");
+          d3.select("#play-stop").text("Play");
         }
       })
       .on("interrupt", () => {
@@ -222,6 +253,7 @@ function BarChartRace(chartId, extendedSettings) {
   }
 
   function stop() {
+    clearTimeout(pauseTimer);
     d3.select(`#${chartId}`).selectAll("*").interrupt();
 
     return this;
@@ -242,6 +274,8 @@ function BarChartRace(chartId, extendedSettings) {
     render,
     setTitle,
     start,
+    stepBack,
+    stepForward,
     stop,
   };
 }
